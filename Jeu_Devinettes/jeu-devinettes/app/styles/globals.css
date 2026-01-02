@@ -1,0 +1,111 @@
+@import "tailwindcss";
+
+:root {
+  --background: #000000;
+  --foreground: #ffffff;
+}
+
+
+@media (prefers-color-scheme: dark) {
+  :root {
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  color-scheme: dark;
+  background-color: #1B1B1B;
+}
+header {
+  width: 100%;
+  background-color: #1C4C2D;
+  display: flex;
+  flex-direction: row;
+  padding: 20px;
+  padding-left: 100px;
+}
+footer {
+  width: 100%;
+  background-color: #1C4C2D;
+  display: flex;
+  flex-direction: row;
+  padding: 20px;
+  padding-left: 100px;
+}
+nav {
+  width: 50%;
+  margin: auto;
+  height: 100%;
+}
+nav ul li {
+  padding-left: 10px;
+  padding-right: 10px;
+  height: 100%;
+}
+main {
+  width: 50%;
+  margin: auto;
+  padding: 10px;
+  gap: 20px;
+  border-radius: 8px;
+  min-height: 100vh;
+}
+button {
+  background-color: #429155;
+  border-radius: 8px;
+  padding: 4px;
+  cursor: pointer;
+}
+form {
+  display: flex;
+  flex-direction: column;
+}
+input {
+  padding: 4px;
+  background-color: #ffffff;
+  color: #000000;
+  border-radius: 8px;
+}
+table {
+  border: 2px solid #585858;
+  padding: 10px;
+}
+thead {
+  border: 2px solid #595959;
+  background-color: #553D7F;
+}
+td {
+  padding: 10px;
+}
+
+button:hover {
+  background-color: #1C4C2D;
+  color: white;
+}
+nav ul li:hover {
+  background-color: #153922;
+}
+tbody tr:hover {
+  background-color: #553D7F;
+}
+
+
+.formInput {
+  margin: 4px;
+}
+.lien {
+  text-decoration: underline;
+}
+.rangee {
+  display: flex;
+  flex-direction: row;
+}
+.content {
+  background-color: #3E2C5C;
+  padding: 20px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
