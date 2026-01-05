@@ -1,5 +1,6 @@
 type Enigme = {
   id : number;
-  texte : string;
-  reponse : string;
+  question : string;
+  solution : string;
+  explication : string;
 }

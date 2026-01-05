@@ -4,28 +4,29 @@ import Link from 'next/link';
 import { useRouter } from "next/router";
 import Header from "@/app/shared/header";
 import Footer from "@/app/shared/footer";
-import EnigmeService from "@/app/services/enigmesService";
+import EnigmeService from "@/app/services/EnigmeService";
 
 const TAILLE_MIN_CHAMP = 1;
 const TAILLE_MAX_CHAMP = 32;
 let enigmeService : EnigmeService = EnigmeService.getInstance();
 
-function FormulaireCreationEnigme({ gererEnvoi }: { gererEnvoi: (enigme: Enigme) => void }) {
+function FormulaireCreationEnigme() {
   const [texteEnigme, setTexteEnigme] = useState("");
   const [texteReponse, setTexteReponse] = useState("");
-
+  const [texteExplication, setTexteExplication] = useState("");
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     enigmeService.addEnigme(texteEnigme, texteReponse);
     setTexteEnigme("");
     setTexteReponse("");
+    setTexteExplication("");
   }
 
   return (
     <form onSubmit={handleSubmit}>
       <div className="formInput">
         <label htmlFor="texteEnigme">Texte de l'énigme</label>
-        <br />
+        <br/>  
         <input
           id="texteEnigme"
           type="text"
@@ -35,12 +36,21 @@ function FormulaireCreationEnigme({ gererEnvoi }: { gererEnvoi: (enigme: Enigme)
       </div>
       <div className="formInput">
         <label htmlFor="texteReponse">Texte de la réponse</label>
-        <br />
+        <br/>
         <input
           id="texteReponse"
           type="text"
           value={texteReponse}
           onChange={(e) => setTexteReponse(e.target.value)}
+        />
+      </div>
+      <div className="formInput">
+        <label htmlFor="texteExplication">Texte de l'explication</label>
+        <br/>
+        <textarea
+          id="texteExplication"
+          value={texteExplication}
+          onChange={(e) => setTexteExplication(e.target.value)}
         />
       </div>
       <button className="formInput" type="submit">Envoyer</button>
@@ -49,21 +59,11 @@ function FormulaireCreationEnigme({ gererEnvoi }: { gererEnvoi: (enigme: Enigme)
 }
 
 export default function Page() {
-  const [enigmes, setEnigmes] = useState<Enigme[]>([]);
-  const router = useRouter();
-
-  // Gestion de l'envoi d'une nouvelle énigme
-  function gererEnvoi(nouvelleEnigme: Enigme) {
-    setEnigmes([nouvelleEnigme, ...enigmes]);
-  }
-
   return (
     <div>
       <Header />
       <main>
-        <div className="content">
-          <FormulaireCreationEnigme gererEnvoi={gererEnvoi} />
-        </div>
+        <FormulaireCreationEnigme />
       </main>
       <Footer />
     </div>

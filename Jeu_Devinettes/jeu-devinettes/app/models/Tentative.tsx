@@ -1,5 +1,7 @@
 type Tentative = {
   id : number;
-  mot: string;
+  joueurId : number;
+  enigmeId : number;
+  texte: string;
   resultat: string;
 };

@@ -4,10 +4,13 @@ import Link from 'next/link';
 import { useRouter } from "next/router";
 import Header from "@/app/shared/header";
 import Footer from "@/app/shared/footer";
-import EnigmeService from "@/app/services/enigmesService";
+import EnigmeService from "@/app/services/EnigmeService";
+import TentativeService from "@/app/services/TentativeService";
 const TAILLE_MIN_CHAMP = 1;
 const TAILLE_MAX_CHAMP = 32;
-
+const JOUEUR_ID = 1;
+let tentativeService : TentativeService = TentativeService.getInstance();
+let enigmeService : EnigmeService = EnigmeService.getInstance();
 function FormulaireTentative({gererTentative} : {gererTentative : (value : string) => void}) {
   const [mot, setMot] = useState("");
 
@@ -56,9 +59,9 @@ function ListeTentatives({tentatives} : {tentatives: Array<Tentative>}) {
       <tbody>
       {
         tentatives.map(tentative =>
-        <tr key={tentative.mot}>
+        <tr key={tentative.id}>
           <td>{tentative.id}</td>
-          <td>{tentative.mot}</td>
+          <td>{tentative.texte}</td>
           <td>{tentative.resultat}</td>
         </tr>
         )
@@ -70,29 +73,21 @@ function ListeTentatives({tentatives} : {tentatives: Array<Tentative>}) {
 
 export default function Page() {
   const router = useRouter();
-  let enigmeService : EnigmeService = EnigmeService.getInstance();
-  const enigmes = enigmeService.getEnigmes();
-  const ENIGME = enigmes.find(enigme => enigme.id == Number(router.query.id))??{"id" : -1, "texte" : "id d'énigme introuvable.", "reponse" : "" };
-
-
+  const ENIGME = enigmeService.getEnigme(Number(router.query.id))??{"id" : -1, "question" : "id d'énigme introuvable.", "solution" : "", "explication" : ""};
+  //let tentatives = tentativeService.getTentatives(JOUEUR_ID, ENIGME.id);
   const [tentatives, setTentatives] = useState(Array<Tentative>);
 
   function gererTentative(texte : string) {
-    let nouvelle_tentative = {"id": tentatives.length+1, "mot": texte, "resultat": texte == ENIGME.reponse?"Correct":"Incorrect"};
-    setTentatives([nouvelle_tentative, ...tentatives]);
+    setTentatives([tentativeService.effectuerTentative(JOUEUR_ID, ENIGME.id, texte), ...tentatives]);
   }
   
   return (
     <div>
       <Header />
       <main>
-      <div className="content">
-        <div className="rangee">
-          <p>«{ENIGME.texte??""}»</p>
-        </div>
-        <FormulaireTentative gererTentative={gererTentative} />
-          <ListeTentatives tentatives={tentatives}/>
-      </div>
+        <p>«{ENIGME.question??""}»</p>
+        <FormulaireTentative gererTentative={gererTentative}/>
+        <ListeTentatives tentatives={tentatives}/>
       </main>
       <Footer />
     </div>

@@ -3,7 +3,7 @@ import { ChangeEventHandler, Dispatch, FormEventHandler, SetStateAction, useStat
 import Link from 'next/link';
 import Header from '../../app/shared/header';
 import Footer from "@/app/shared/footer";
-import EnigmeService from "@/app/services/enigmesService";
+import EnigmeService from "@/app/services/EnigmeService";
 
 function ListeEnigmes({enigmes} : {enigmes: Array<Enigme>}) {
   return (
@@ -12,7 +12,7 @@ function ListeEnigmes({enigmes} : {enigmes: Array<Enigme>}) {
       <tr>
         <td>Id</td>
         <td>Enigme</td>
-        <td> </td>
+        <td> </td> 
       </tr>
     </thead>
     <tbody>
@@ -20,8 +20,8 @@ function ListeEnigmes({enigmes} : {enigmes: Array<Enigme>}) {
       enigmes.map(enigme =>
         <tr key={enigme.id}>
           <td>{enigme.id}</td>
-          <td>{enigme.texte}</td>
-          <td className="lien"><Link href={"/enigmes/" + enigme.id}><button>Résoudre</button></Link></td>
+          <td>{enigme.question}</td>
+          <td><Link className="fauxButton" href={"/enigmes/" + enigme.id}>Résoudre</Link></td>
         </tr>
       )
     }
@@ -38,9 +38,7 @@ export default function Page() {
     <div>
       <Header />
       <main>
-        <div className="content">
-          <ListeEnigmes enigmes={enigmes}/>
-        </div>
+        <ListeEnigmes enigmes={enigmes} />
       </main>
       <Footer />
     </div>

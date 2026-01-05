@@ -1,8 +1,8 @@
 class EnigmeService {
     private static instance: EnigmeService;
     private seedEnigmes: Array<Enigme> = [
-        { "id": 1, "texte": "Quel être, pourvu d'une seule voix, a d'abord quatre jambes le matin, puis deux jambes à midi, et trois jambes le soir?", "reponse": "L'Homme" },
-        { "id": 2, "texte": "Mieux que dieu, pire que le diable. Les pauvres en ont, les riches en ont besoin. Si on en mange, on meurt.", "reponse": "Rien" },
+        { "id": 1, "question": "Quel être, pourvu d'une seule voix, a d'abord quatre jambes le matin, puis deux jambes à midi, et trois jambes le soir?", "solution": "L'Homme", "explication" : ""},
+        { "id": 2, "question": "Mieux que dieu, pire que le diable. Les pauvres en ont, les riches en ont besoin. Si on en mange, on meurt.", "solution": "Rien", "explication" : ""},
     ];
 
     private enigmes: Array<Enigme>;
@@ -24,8 +24,8 @@ class EnigmeService {
         return this.enigmes;
     }
 
-    public getEnigme(index: number): Enigme | undefined {
-        return this.enigmes[index];
+    public getEnigme(enigmeId: number): Enigme | undefined {
+        return this.enigmes.find(enigme => enigme.id == enigmeId);
     }
 
     public addEnigme(texteEnigme: string, texteReponse: string): Array<Enigme> | void {
@@ -40,8 +40,9 @@ class EnigmeService {
 
         const nouvelleEnigme: Enigme = {
             id: this.enigmes.length + 1,
-            texte: texteEnigme,
-            reponse: texteReponse,
+            question: texteEnigme,
+            solution: texteReponse,
+            explication : "",
         };
 
         this.enigmes.push(nouvelleEnigme);

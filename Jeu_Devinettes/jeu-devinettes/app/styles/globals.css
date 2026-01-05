@@ -1,111 +1,127 @@
 @import "tailwindcss";
 
 :root {
-  --background: #000000;
+  --background: #1B1B1B;
   --foreground: #ffffff;
+  --primaire1: #1C4C2D;
+  --primaire2: #3E2C5C;
 }
 
 
 @media (prefers-color-scheme: dark) {
-  :root {
-  }
+  :root {}
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   color-scheme: dark;
-  background-color: #1B1B1B;
 }
+
 header {
-  width: 100%;
-  background-color: #1C4C2D;
+  background-color: var(--primaire1);
   display: flex;
   flex-direction: row;
-  padding: 20px;
-  padding-left: 100px;
+  padding: 20px 20px 20px 100px;
 }
+
 footer {
-  width: 100%;
-  background-color: #1C4C2D;
+  background-color: var(--primaire1);
   display: flex;
   flex-direction: row;
-  padding: 20px;
-  padding-left: 100px;
+  padding: 20px 20px 20px 100px;
 }
+
 nav {
   width: 50%;
   margin: auto;
-  height: 100%;
 }
+
 nav ul li {
-  padding-left: 10px;
-  padding-right: 10px;
-  height: 100%;
+  padding: 0px 20px 0px 20px
 }
+
 main {
-  width: 50%;
-  margin: auto;
-  padding: 10px;
-  gap: 20px;
+  background-color: var(--primaire2);
   border-radius: 8px;
+  width: 50%;
   min-height: 100vh;
+  margin: 40px auto 40px auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 }
+
+a {
+  text-decoration: underline;
+}
+
 button {
   background-color: #429155;
   border-radius: 8px;
   padding: 4px;
   cursor: pointer;
 }
+
 form {
   display: flex;
   flex-direction: column;
+  gap: 8px;
 }
-input {
+
+input, textarea {
   padding: 4px;
   background-color: #ffffff;
   color: #000000;
   border-radius: 8px;
 }
+
 table {
   border: 2px solid #585858;
-  padding: 10px;
 }
+
 thead {
   border: 2px solid #595959;
   background-color: #553D7F;
 }
+
 td {
   padding: 10px;
 }
 
 button:hover {
-  background-color: #1C4C2D;
+  background-color: #1c4c2d;
   color: white;
 }
+
 nav ul li:hover {
   background-color: #153922;
 }
+
 tbody tr:hover {
   background-color: #553D7F;
 }
 
-
-.formInput {
-  margin: 4px;
-}
-.lien {
-  text-decoration: underline;
-}
 .rangee {
   display: flex;
   flex-direction: row;
 }
-.content {
-  background-color: #3E2C5C;
-  padding: 20px;
+
+.formInput {
+  padding: auto;
+}
+
+.fauxButton {
+  background-color: #429155;
   border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  padding: 4px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.fauxButton:hover {
+  background-color: #1c4c2d;
+  color: white;
 }
