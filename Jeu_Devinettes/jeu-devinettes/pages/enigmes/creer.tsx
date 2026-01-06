@@ -14,9 +14,13 @@ function FormulaireCreationEnigme() {
   const [texteEnigme, setTexteEnigme] = useState("");
   const [texteReponse, setTexteReponse] = useState("");
   const [texteExplication, setTexteExplication] = useState("");
+  
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    enigmeService.addEnigme(texteEnigme, texteReponse);
+    let response = enigmeService.addEnigme(texteEnigme, texteReponse, texteExplication);
+    if(response != null) {
+          alert("Énigme créé avec succès!");
+    }
     setTexteEnigme("");
     setTexteReponse("");
     setTexteExplication("");
