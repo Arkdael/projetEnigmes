@@ -6,6 +6,7 @@ import Header from "@/app/shared/header";
 import Footer from "@/app/shared/footer";
 import EnigmeService from "@/app/services/EnigmeService";
 import TentativeService from "@/app/services/TentativeService";
+import { exit } from "process";
 const TAILLE_MIN_CHAMP = 1;
 const TAILLE_MAX_CHAMP = 32;
 const JOUEUR_ID = 1;
@@ -16,10 +17,6 @@ function FormulaireTentative({gererTentative} : {gererTentative : (value : strin
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if(mot.length < TAILLE_MIN_CHAMP || mot.length > TAILLE_MAX_CHAMP) {
-      return;
-    }
-
     gererTentative(mot);
     setMot("");
   }
@@ -28,6 +25,9 @@ function FormulaireTentative({gererTentative} : {gererTentative : (value : strin
     setMot(value);
   }
   
+  function abandonner() {
+    alert(":("); //Trouver comment avoir la reponse de l'énigme.
+  }
   return (
     <form onSubmit={handleSubmit}>
       <div className="formInput">
@@ -41,6 +41,7 @@ function FormulaireTentative({gererTentative} : {gererTentative : (value : strin
         />
       </div>
       <button className="formInput" type="submit">Envoyer</button>
+      <button className="formInput boutonAbandonner" type="button" onClick={abandonner}>Abandonner</button>
     </form>
   );
 }
@@ -73,19 +74,24 @@ function ListeTentatives({tentatives} : {tentatives: Array<Tentative>}) {
 
 export default function Page() {
   const router = useRouter();
-  const ENIGME = enigmeService.getEnigme(Number(router.query.id))??{"id" : -1, "question" : "id d'énigme introuvable.", "solution" : "", "explication" : ""};
-  //let tentatives = tentativeService.getTentatives(JOUEUR_ID, ENIGME.id);
-  const [tentatives, setTentatives] = useState(Array<Tentative>);
-
+  const enigme = enigmeService.getEnigme(Number(router.query.id))??{"id" : -1, "question" : "id d'énigme introuvable.", "solution" : "", "explication" : ""};
+  const [tentatives, setTentatives] = useState<Array<Tentative>>(tentativeService.getTentatives(JOUEUR_ID, enigme.id));  
   function gererTentative(texte : string) {
-    setTentatives([tentativeService.effectuerTentative(JOUEUR_ID, ENIGME.id, texte), ...tentatives]);
+    let nouvelleTentative = tentativeService.effectuerTentative(JOUEUR_ID, enigme.id, texte);
+    if(!nouvelleTentative) {
+      return;
+    }
+    setTentatives([nouvelleTentative, ...tentatives]);
+    if(nouvelleTentative.resultat == "Correct") {
+      alert("Félicitation! Vous avez résolu l'énigme en " + (tentatives.length  ) + " tentatives.") // Se fait avant l'update de tentatives.
+    }
   }
   
   return (
     <div>
       <Header />
       <main>
-        <p>«{ENIGME.question??""}»</p>
+        <p>«{enigme.question??""}»</p>
         <FormulaireTentative gererTentative={gererTentative}/>
         <ListeTentatives tentatives={tentatives}/>
       </main>

@@ -59,7 +59,7 @@ a {
 }
 
 button {
-  background-color: #429155;
+  background-color: rgb(66, 145, 85);
   border-radius: 8px;
   padding: 4px;
   cursor: pointer;
@@ -121,7 +121,16 @@ tbody tr:hover {
   text-decoration: none;
 }
 
+.boutonAbandonner {
+  background-color: #585858;
+}
+
 .fauxButton:hover {
-  background-color: #1c4c2d;
+  background-color: rgb(28, 76, 45);
   color: white;
+}
+
+
+.boutonAbandonner:hover{
+  background-color: #3d3c3c;
 }
