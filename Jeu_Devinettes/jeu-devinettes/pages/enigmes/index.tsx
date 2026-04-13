@@ -1,11 +1,12 @@
 'use client';
-import { ChangeEventHandler, Dispatch, FormEventHandler, SetStateAction, useState } from "react";
 import Link from 'next/link';
 import Header from '../../app/shared/header';
 import Footer from "@/app/shared/footer";
+import Enigme from "@/app/models/Enigme";
 import EnigmeService from "@/app/services/EnigmeService";
+import React, { useEffect, useState } from 'react';
 
-function ListeEnigmes({enigmes} : {enigmes: Array<Enigme>}) {
+function ListeEnigmes({enigmes} : {enigmes: Enigme[]}) {
   return (
   <table>
     <thead>
@@ -35,7 +36,7 @@ function FormulaireRecherche({handleSearch} : {handleSearch :(value : string) =>
   const [texteRecherche, setTexteRecherche] = useState("");
 
   function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
+    e.preventDefault();
     handleSearch(texteRecherche);
   }
 
@@ -58,11 +59,31 @@ function FormulaireRecherche({handleSearch} : {handleSearch :(value : string) =>
   );
 }
 
+
+
+
 export default function Page() {
-  const enigmeService : EnigmeService = EnigmeService.getInstance();
-  const [enigmes, setEnigme] = useState<Enigme[]>(enigmeService.getEnigmes());
+  const [enigmes, setEnigmes] = useState<Enigme[]>([]);
+  const [listeInitiale, setListeInitiale] = useState<Enigme[]>([]);
+
+  useEffect(() => {
+    chargerDonnees()
+  }, []);
+
+  async function chargerDonnees() {
+    try {
+      const enigmeService : EnigmeService = new EnigmeService();
+      let liste: Enigme[] = await enigmeService.recupererTout();
+      setListeInitiale(liste);
+      setEnigmes(liste);
+    }
+    catch(erreur) {
+      console.log(erreur);
+    }
+  }
+
   function handleSearch(texte : string) {
-    setEnigme(enigmeService.getEnigmes().filter(enigme => enigme.question.includes(texte)));
+    setEnigmes(listeInitiale.filter(enigme => enigme.question.includes(texte)));
   }
 
   return (

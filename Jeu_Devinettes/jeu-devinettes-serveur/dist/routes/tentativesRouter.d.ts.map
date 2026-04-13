@@ -1,0 +1,1 @@
+{"version":3,"file":"tentativesRouter.d.ts","sourceRoot":"","sources":["../../routes/tentativesRouter.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,MAAM,EAAmC,MAAM,SAAS,CAAC;AAIlE,MAAM,CAAC,OAAO,OAAO,eAAe;IAElC,OAAO,CAAC,QAAQ,CAAC,MAAM,CAAS;IAChC,OAAO,CAAC,iBAAiB,CAAoB;;IAO7C,OAAO,CAAC,UAAU;IAKlB,OAAO,CAAC,aAAa;IAIrB,OAAO,CAAC,kBAAkB;IAOnB,SAAS,IAAI,MAAM;CAG3B"}

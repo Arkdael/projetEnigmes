@@ -1,52 +1,25 @@
-import EnigmeService from "@/app/services/EnigmeService";
-class TentativeService {
-    private static instance: TentativeService;
-    private tentatives: Array<Tentative>;
-    private static readonly TAILLE_MIN_CHAMP = 1;
-    private static readonly TAILLE_MAX_CHAMP = 256;
-    private enigmeService : EnigmeService = EnigmeService.getInstance();
+import Tentative from "../models/Tentative";
+import TentativeCreerDTO from "../models/transfert/TentativeCreer";
+import HttpService from "./HttpService";
 
-    constructor() {
-        this.tentatives = new Array<Tentative>;
-    }
-    public static getInstance(): TentativeService {
-        if (!TentativeService.instance) {
-            TentativeService.instance = new TentativeService();
-        }
-        return TentativeService.instance;
-    }
-    public getAllTentatives() {
-        return this.tentatives;
-    }
-    
-    public getTentatives(joueurId : number, enigmeId : number) {
-        let tentatives = this.tentatives.filter(tentative => tentative.joueurId == joueurId && tentative.enigmeId == enigmeId);
-        //let tentatives : Array<Tentative> = JSON.parse(sessionStorage.getItem(`tentatives|${joueurId}|${enigmeId}`)??"");
-        return tentatives;
+export default class TentativeService extends HttpService<Tentative> {
+    protected override apiUrl: string =  `${this.apiUrl}/tentatives`;
+
+    public async getTentatives(joueurId : number, enigmeId : number) {
+        const reponse = await fetch(`${this.apiUrl}/${enigmeId}/${joueurId}`);
+        return await reponse.json() as Tentative[];
     }
 
-    public effectuerTentative(joueurId : number, enigmeId : number, tentativeTexte : string) {
-        if(tentativeTexte.length < TentativeService.TAILLE_MIN_CHAMP || tentativeTexte.length > TentativeService.TAILLE_MAX_CHAMP) {
-            alert(`Votre tentative doit être entre ${TentativeService.TAILLE_MIN_CHAMP} et ${TentativeService.TAILLE_MAX_CHAMP} caractères.`);
-            return;
-        }
-        let enigme = this.enigmeService.getEnigme(enigmeId);
-        let resultat = tentativeTexte.toLowerCase() == enigme?.solution.toLowerCase()?"Correct":"Incorrect";
-
-        const nouvelleTentative: Tentative = {
-            id: this.tentatives.length+1,
-            joueurId : joueurId,
-            enigmeId : enigmeId, 
-            texte : tentativeTexte,
-            resultat : resultat
-        };
-        this.tentatives.push(nouvelleTentative);
-        //let tentativesJoueur : Array<Tentative> = JSON.parse(sessionStorage.getItem(`tentatives|${joueurId}|${enigmeId}`)??"");
-        //tentativesJoueur.push(nouvelleTentative);
-        //sessionStorage.setItem(`tentatives|${joueurId}|${enigmeId}`, JSON.stringify(tentativesJoueur));
-        return nouvelleTentative;
+    public async effectuerTentative(joueurId: number, enigmeId: number, tentativeTexte: string) {
+        const dto = {joueurId, enigmeId, tentativeTexte} as TentativeCreerDTO;
+        const reponse = await fetch(`${this.apiUrl}/effectuer`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(dto),
+        });;
+        
+        return await reponse.json() as Tentative;
     }
-
 }
-
-export default TentativeService;

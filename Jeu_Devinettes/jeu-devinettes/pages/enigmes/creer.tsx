@@ -1,14 +1,10 @@
-'use client';
 import { useState } from "react";
-import Link from 'next/link';
-import { useRouter } from "next/router";
 import Header from "@/app/shared/header";
 import Footer from "@/app/shared/footer";
 import EnigmeService from "@/app/services/EnigmeService";
+import EnigmeCreerDTO from "@/app/models/transfert/EnigmeCreer";
 
-const TAILLE_MIN_CHAMP = 1;
-const TAILLE_MAX_CHAMP = 32;
-let enigmeService : EnigmeService = EnigmeService.getInstance();
+const enigmeService : EnigmeService = new EnigmeService();
 
 function FormulaireCreationEnigme() {
   const [texteEnigme, setTexteEnigme] = useState("");
@@ -17,9 +13,23 @@ function FormulaireCreationEnigme() {
   
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    let response = enigmeService.addEnigme(texteEnigme, texteReponse, texteExplication);
-    if(response != null) {
-          alert("Énigme créé avec succès!");
+
+    if (texteEnigme.length < EnigmeService.TAILLE_MIN_CHAMP || texteEnigme.length > EnigmeService.TAILLE_MAX_CHAMP) {
+      alert(`Le texte de l'énigme doit être entre ${EnigmeService.TAILLE_MIN_CHAMP} et ${EnigmeService.TAILLE_MAX_CHAMP} caractères.`);
+      return;
+    }
+    if (texteReponse.length < EnigmeService.TAILLE_MIN_CHAMP || texteReponse.length > EnigmeService.TAILLE_MAX_CHAMP) {
+      alert(`La réponse de l'énigme doit être entre ${EnigmeService.TAILLE_MIN_CHAMP} et ${EnigmeService.TAILLE_MAX_CHAMP} caractères.`);
+      return;
+    }
+    if (texteExplication.length < EnigmeService.TAILLE_MIN_CHAMP || texteExplication.length > EnigmeService.TAILLE_MAX_CHAMP) {
+      alert(`L'explication de l'énigme doit être entre ${EnigmeService.TAILLE_MIN_CHAMP} et ${EnigmeService.TAILLE_MAX_CHAMP} caractères.`);
+      return;
+    }
+
+    const reponse = enigmeService.creer({texteEnigme, texteReponse, texteExplication} as EnigmeCreerDTO);
+    if(reponse != null) {
+      alert("Énigme créé avec succès!");
     }
     setTexteEnigme("");
     setTexteReponse("");

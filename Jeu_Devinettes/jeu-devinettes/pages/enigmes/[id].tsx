@@ -1,22 +1,21 @@
-'use client';
-import { ChangeEventHandler, Dispatch, FormEventHandler, SetStateAction, useState } from "react";
-import Link from 'next/link';
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Header from "@/app/shared/header";
 import Footer from "@/app/shared/footer";
-import EnigmeService from "@/app/services/EnigmeService";
 import TentativeService from "@/app/services/TentativeService";
-import { exit } from "process";
-const TAILLE_MIN_CHAMP = 1;
-const TAILLE_MAX_CHAMP = 32;
-const JOUEUR_ID = 1;
-let tentativeService : TentativeService = TentativeService.getInstance();
-let enigmeService : EnigmeService = EnigmeService.getInstance();
-function FormulaireTentative({gererTentative} : {gererTentative : (value : string) => void}) {
+import EnigmeService from "@/app/services/EnigmeService";
+import Tentative from "@/app/models/Tentative";
+import TentativeCreerDTO from "@/app/models/transfert/TentativeCreer";
+import Enigme from "@/app/models/Enigme";
+
+
+const JOUEUR_ID = 1; // TODO remplacer par un système d'authentification fonctionnel.
+
+function FormulaireTentative({gererTentative}: {gererTentative : (value : string) => void}) {
   const [mot, setMot] = useState("");
 
   function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
+    e.preventDefault();
     gererTentative(mot);
     setMot("");
   }
@@ -26,7 +25,7 @@ function FormulaireTentative({gererTentative} : {gererTentative : (value : strin
   }
   
   function abandonner() {
-    alert(":("); //Trouver comment avoir la reponse de l'énigme.
+    alert(":("); // TODO Trouver comment avoir la reponse de l'énigme.
   }
   return (
     <form onSubmit={handleSubmit}>
@@ -46,7 +45,7 @@ function FormulaireTentative({gererTentative} : {gererTentative : (value : strin
   );
 }
 
-function ListeTentatives({tentatives} : {tentatives: Array<Tentative>}) {
+function ListeTentatives({tentatives} : {tentatives: Tentative[]}) {
   return (
     <table>
       <caption>Tentatives precedentes</caption>
@@ -74,10 +73,37 @@ function ListeTentatives({tentatives} : {tentatives: Array<Tentative>}) {
 
 export default function Page() {
   const router = useRouter();
-  const enigme = enigmeService.getEnigme(Number(router.query.id))??{"id" : -1, "question" : "id d'énigme introuvable.", "solution" : "", "explication" : ""};
-  const [tentatives, setTentatives] = useState<Array<Tentative>>(tentativeService.getTentatives(JOUEUR_ID, enigme.id));  
-  function gererTentative(texte : string) {
-    let nouvelleTentative = tentativeService.effectuerTentative(JOUEUR_ID, enigme.id, texte);
+  const enigmeService : EnigmeService = new EnigmeService;
+  const tentativeService : TentativeService = new TentativeService;
+  const [enigme, setEnigme] = useState<Enigme>({"id" : -1, "question" : "id d'énigme introuvable.", "solution" : "", "explication" : ""} as Enigme);
+  const [listeInitiale, setListeInitiale] = useState<Tentative[]>([]);
+  const [tentatives, setTentatives] = useState<Tentative[]>(listeInitiale);
+
+  useEffect(() => {
+    chargerDonnees()
+  }, []);
+
+  async function chargerDonnees() {
+    try {
+      const enigme: Enigme = await enigmeService.recuperer((Number(router.query.id)));
+      setEnigme(enigme);
+
+      const liste: Tentative[] = await tentativeService.getTentatives(JOUEUR_ID, enigme.id);
+      setListeInitiale(liste);
+      setTentatives(liste);
+    }
+    catch(erreur) {
+      console.log(erreur);
+    }
+  }
+
+  async function gererTentative(texte : string) {
+    if(texte.length < TentativeService.TAILLE_MIN_CHAMP || texte.length > TentativeService.TAILLE_MAX_CHAMP) {
+      alert(`Votre tentative doit être entre ${TentativeService.TAILLE_MIN_CHAMP} et ${TentativeService.TAILLE_MAX_CHAMP} caractères.`);
+      return;
+    }
+
+    const nouvelleTentative = await tentativeService.effectuerTentative(JOUEUR_ID, enigme.id, texte);
     if(!nouvelleTentative) {
       return;
     }

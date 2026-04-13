@@ -1,0 +1,1 @@
+{"version":3,"file":"indexRouter.d.ts","sourceRoot":"","sources":["../../routes/indexRouter.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,MAAM,EAAmC,MAAM,SAAS,CAAC;AAElE,MAAM,CAAC,OAAO,OAAO,WAAW;IAE9B,OAAO,CAAC,QAAQ,CAAC,MAAM,CAAS;;IAOhC,OAAO,CAAC,UAAU;IAMlB,OAAO,CAAC,QAAQ;IAIT,SAAS,IAAI,MAAM;CAG3B"}
