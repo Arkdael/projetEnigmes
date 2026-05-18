@@ -3,22 +3,25 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "paraglide:compile": "paraglide-js compile --project ./project.inlang --outdir ./src/paraglide --strategy url baseLocale",
+    "dev": "npm run paraglide:compile && next dev",
+    "build": "npm run paraglide:compile && next build",
     "start": "next start",
     "lint": "eslint"
   },
   "dependencies": {
     "next": "16.0.1",
+    "next-intl": "^4.12.0",
     "react": "19.2.0",
     "react-dom": "19.2.0"
   },
   "devDependencies": {
+    "@inlang/paraglide-js": "^2.16.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "baseline-browser-mapping": "^2.10.18",
+    "baseline-browser-mapping": "^2.10.30",
     "eslint": "^9",
     "eslint-config-next": "16.0.1",
     "tailwindcss": "^4",

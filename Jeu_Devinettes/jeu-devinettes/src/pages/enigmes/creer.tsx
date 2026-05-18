@@ -1,10 +1,11 @@
 import { useState } from "react";
-import Header from "@/app/shared/header";
-import Footer from "@/app/shared/footer";
-import EnigmeService from "@/app/services/EnigmeService";
-import EnigmeCreerDTO from "@/app/models/transfert/EnigmeCreer";
+import Header from "@/src/app/shared/header";
+import Footer from "@/src/app/shared/footer";
+import EnigmeService from "@/src/app/services/EnigmeService";
+import EnigmeCreerDTO from "@/src/app/models/transfert/EnigmeCreer";
+import { m } from "@/src/paraglide/messages";
 
-const enigmeService : EnigmeService = new EnigmeService();
+const enigmeService: EnigmeService = new EnigmeService();
 
 function FormulaireCreationEnigme() {
   const [texteEnigme, setTexteEnigme] = useState("");
@@ -39,7 +40,7 @@ function FormulaireCreationEnigme() {
   return (
     <form onSubmit={handleSubmit}>
       <div className="formInput">
-        <label htmlFor="texteEnigme">Texte de l'énigme</label>
+        <label htmlFor="texteEnigme">{m.enigme_creer_champQuestion()}</label>
         <br/>  
         <input
           id="texteEnigme"
@@ -49,7 +50,7 @@ function FormulaireCreationEnigme() {
         />
       </div>
       <div className="formInput">
-        <label htmlFor="texteReponse">Texte de la réponse</label>
+        <label htmlFor="texteReponse">{m.enigme_creer_champReponse()}</label>
         <br/>
         <input
           id="texteReponse"
@@ -59,7 +60,7 @@ function FormulaireCreationEnigme() {
         />
       </div>
       <div className="formInput">
-        <label htmlFor="texteExplication">Texte de l'explication</label>
+        <label htmlFor="texteExplication">{m.enigme_creer_champExplication()}</label>
         <br/>
         <textarea
           id="texteExplication"
@@ -67,7 +68,7 @@ function FormulaireCreationEnigme() {
           onChange={(e) => setTexteExplication(e.target.value)}
         />
       </div>
-      <button className="formInput" type="submit">Envoyer</button>
+      <button className="formInput" type="submit">{m.forms_actions_envoyer()}</button>
     </form>
   );
 }

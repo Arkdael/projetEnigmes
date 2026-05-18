@@ -31,16 +31,14 @@ class EnigmeService {
         return this.enigmes.find(enigme => enigme.id == enigmeId);
     }
     addEnigme(dto) {
+        // TODO gestion d'erreur.
         if (dto.texteEnigme.length < EnigmeService.TAILLE_MIN_CHAMP || dto.texteEnigme.length > EnigmeService.TAILLE_MAX_CHAMP) {
-            //alert(`Le texte de l'énigme doit être entre ${EnigmeService.TAILLE_MIN_CHAMP} et ${EnigmeService.TAILLE_MAX_CHAMP} caractères.`);
             return;
         }
         if (dto.texteReponse.length < EnigmeService.TAILLE_MIN_CHAMP || dto.texteReponse.length > EnigmeService.TAILLE_MAX_CHAMP) {
-            //alert(`La réponse de l'énigme doit être entre ${EnigmeService.TAILLE_MIN_CHAMP} et ${EnigmeService.TAILLE_MAX_CHAMP} caractères.`);
             return;
         }
         if (dto.texteExplication.length < EnigmeService.TAILLE_MIN_CHAMP || dto.texteExplication.length > EnigmeService.TAILLE_MAX_CHAMP) {
-            //alert(`L'explication de l'énigme doit être entre ${EnigmeService.TAILLE_MIN_CHAMP} et ${EnigmeService.TAILLE_MAX_CHAMP} caractères.`);
             return;
         }
         const nouvelleEnigme = {

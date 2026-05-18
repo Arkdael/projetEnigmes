@@ -1,18 +1,18 @@
-'use client';
 import Link from 'next/link';
-import Header from '../../app/shared/header';
-import Footer from "@/app/shared/footer";
-import Enigme from "@/app/models/Enigme";
-import EnigmeService from "@/app/services/EnigmeService";
+import Footer from "@/src/app/shared/footer";
+import Enigme from "@/src/app/models/Enigme";
+import EnigmeService from "@/src/app/services/EnigmeService";
 import React, { useEffect, useState } from 'react';
+import Header from '@/src/app/shared/header';
+import { m } from "@/src/paraglide/messages";
 
 function ListeEnigmes({enigmes} : {enigmes: Enigme[]}) {
   return (
   <table>
     <thead>
       <tr>
-        <td>Id</td>
-        <td>Enigme</td>
+        <td>{m.enigme_liste_colId()}</td>
+        <td>{m.enigme_liste_colTexte()}</td>
         <td> </td> 
       </tr>
     </thead>
@@ -22,7 +22,7 @@ function ListeEnigmes({enigmes} : {enigmes: Enigme[]}) {
         <tr key={enigme.id}>
           <td>{enigme.id}</td>
           <td>{enigme.question}</td>
-          <td><Link className="fauxButton" href={"/enigmes/" + enigme.id}>Résoudre</Link></td>
+          <td><Link className="fauxButton" href={"/enigmes/" + enigme.id}>{m.enigme_liste_resoudre()}</Link></td>
         </tr>
       )
     }
@@ -60,19 +60,18 @@ function FormulaireRecherche({handleSearch} : {handleSearch :(value : string) =>
 }
 
 
-
-
 export default function Page() {
+  //const locale = useUrlLocale(baseLocale);
   const [enigmes, setEnigmes] = useState<Enigme[]>([]);
   const [listeInitiale, setListeInitiale] = useState<Enigme[]>([]);
 
   useEffect(() => {
-    chargerDonnees()
+    chargerDonnees();
   }, []);
 
   async function chargerDonnees() {
     try {
-      const enigmeService : EnigmeService = new EnigmeService();
+      const enigmeService: EnigmeService = new EnigmeService();
       let liste: Enigme[] = await enigmeService.recupererTout();
       setListeInitiale(liste);
       setEnigmes(liste);
@@ -82,7 +81,7 @@ export default function Page() {
     }
   }
 
-  function handleSearch(texte : string) {
+  function handleSearch(texte: string) {
     setEnigmes(listeInitiale.filter(enigme => enigme.question.includes(texte)));
   }
 

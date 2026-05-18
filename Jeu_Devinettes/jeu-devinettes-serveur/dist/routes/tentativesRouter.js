@@ -21,9 +21,7 @@ class TentativeRouter {
         res.json(this.tentativesService.getTentatives(Number(_req.params.joueurId), Number(_req.params.enigmeId)));
     }
     effectuerTentative(_req, res, _next) {
-        console.log(_req.body);
         const tentative = _req.body;
-        console.log(tentative);
         res.json(this.tentativesService.effectuerTentative(tentative));
     }
     getRouter() {

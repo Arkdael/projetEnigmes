@@ -22,12 +22,11 @@ class TentativeService {
     }
     getTentatives(joueurId, enigmeId) {
         const tentatives = this.tentatives.filter(tentative => tentative.joueurId == joueurId && tentative.enigmeId == enigmeId);
-        //let tentatives : Array<Tentative> = JSON.parse(sessionStorage.getItem(`tentatives|${joueurId}|${enigmeId}`)??"");
         return tentatives;
     }
     effectuerTentative(dto) {
         if (dto.tentativeTexte.length < TentativeService.TAILLE_MIN_CHAMP || dto.tentativeTexte.length > TentativeService.TAILLE_MAX_CHAMP) {
-            //alert(`Votre tentative doit être entre ${TentativeService.TAILLE_MIN_CHAMP} et ${TentativeService.TAILLE_MAX_CHAMP} caractères.`);
+            // TODO gestion d'erreur.
             return;
         }
         const enigme = this.enigmeService.getEnigme(dto.enigmeId);
@@ -40,9 +39,6 @@ class TentativeService {
             resultat: resultat
         };
         this.tentatives.push(nouvelleTentative);
-        //let tentativesJoueur : Array<Tentative> = JSON.parse(sessionStorage.getItem(`tentatives|${joueurId}|${enigmeId}`)??"");
-        //tentativesJoueur.push(nouvelleTentative);
-        //sessionStorage.setItem(`tentatives|${joueurId}|${enigmeId}`, JSON.stringify(tentativesJoueur));
         return nouvelleTentative;
     }
 }
