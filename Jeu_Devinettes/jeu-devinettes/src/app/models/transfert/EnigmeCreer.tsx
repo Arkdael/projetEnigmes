@@ -1,5 +1,5 @@
 export default interface EnigmeCreerDTO {
-    texteEnigme: string;
-    texteReponse: string;
-    texteExplication: string;
+  texteEnigme: string;
+  texteReponse: string;
+  texteExplication: string;
 }

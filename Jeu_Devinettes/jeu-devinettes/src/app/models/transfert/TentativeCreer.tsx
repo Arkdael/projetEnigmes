@@ -1,5 +1,5 @@
 export default interface TentativeCreerDTO {
-    joueurId: number;
-    enigmeId: number;
-    tentativeTexte: string;
+	joueurId: number;
+	enigmeId: number;
+	tentativeTexte: string;
 }

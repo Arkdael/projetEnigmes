@@ -11,7 +11,7 @@ import { m } from "@/src/paraglide/messages";
 
 const JOUEUR_ID = 1; // TODO remplacer par un système d'authentification fonctionnel.
 
-function FormulaireTentative({ gererTentative }: { gererTentative : (value : string) => void }) {
+function FormulaireTentative({gererTentative}: {gererTentative: (value: string) => void}) {
   const [mot, setMot] = useState("");
 
   function handleSubmit(e: React.FormEvent) {
@@ -72,7 +72,6 @@ function ListeTentatives({tentatives}: {tentatives: Tentative[]}) {
 }
 
 export default function Page() {
-  //const locale = useUrlLocale(baseLocale);
   const router = useRouter();
   const enigmeService: EnigmeService = new EnigmeService();
   const tentativeService: TentativeService = new TentativeService();

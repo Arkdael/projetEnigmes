@@ -1,5 +1,5 @@
 "use client";
-
+// Pris depuis https://github.com/thedonmon/paraglide-nextjs-hydration-repro/blob/master/src/components/ParaglideProvider.tsx .
 import { useRef } from "react";
 import { overwriteGetLocale, type Locale, assertIsLocale } from "../../paraglide/runtime";
 
