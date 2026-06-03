@@ -42,5 +42,7 @@
   "include": [
     "**/*.ts", "bin/www", "bin/www",
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules", "./dist/**/*"
+  ]
 }
