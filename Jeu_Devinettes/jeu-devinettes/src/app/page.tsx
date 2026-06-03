@@ -1,3 +1,4 @@
+import "../app/styles/globals.css";
 import Header from "./shared/header";
 import Footer from "./shared/footer";
 import { m } from "../paraglide/messages";
