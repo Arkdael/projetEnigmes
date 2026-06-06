@@ -8,9 +8,9 @@ declare class TentativeService {
     private enigmeService;
     constructor();
     static getInstance(): TentativeService;
-    getAllTentatives(): Tentative[];
-    getTentatives(joueurId: number, enigmeId: number): Tentative[];
-    effectuerTentative(dto: TentativeCreerDTO): Tentative | undefined;
+    getAllTentatives(): Promise<Tentative[]>;
+    getTentatives(joueurId: number, enigmeId: number): Promise<Tentative[]>;
+    effectuerTentative(dto: TentativeCreerDTO): Promise<Tentative | undefined>;
 }
 export default TentativeService;
 //# sourceMappingURL=TentativeService.d.ts.map

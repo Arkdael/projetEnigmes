@@ -21,6 +21,14 @@
   "enigme_jeu_colId": "Id",
   "enigme_jeu_colMot": "Word",
   "enigme_jeu_colResultat": "Result",
+  "enigme_jeu_messages_felicitation": "Congratulation! You solved the riddle in {compte} attempts.",
+  "erreur_tropCourt": "The field {valeur} must be less than {min} characters.",
+  "erreur_tropLong": "The field {valeur} must be at least {max} characters.",
+  "erreur_taille": "The field {valeur} must be between {min} and {max} characters.",
   "forms_actions_annuler": "Cancel",
-  "forms_actions_envoyer": "Submit"
+  "forms_actions_envoyer": "Submit",
+  "forms_messages_creation_succes": "{objet} created successfully",
+  "resultat_correct": "Correct",
+  "resultat_incorrect": "Incorrect",
+  "tentative_nom": "{count, plural, one {Attempt} other {Attempts}}"
 }

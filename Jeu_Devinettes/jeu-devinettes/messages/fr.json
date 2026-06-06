@@ -17,10 +17,18 @@
   "enigme_liste_resoudre": "Résoudre",
   "enigme_jeu_essayer": "Essayer un mot",
   "enigme_jeu_abandonner": "Abandonner",
-  "enigme_jeu_titre": "Tentatives précédentates",
+  "enigme_jeu_titre": "Tentatives précédentes",
   "enigme_jeu_colId": "Id",
   "enigme_jeu_colMot": "Mot",
   "enigme_jeu_colResultat": "Résultat",
+  "enigme_jeu_messages_felicitation": "Félicitation! Vous avez résolu l'énigme en {compte} tentatives.",
+  "erreur_tropCourt": "Le champ {valeur} doit mesurer au moins {min} caractères.",
+  "erreur_tropLong": "Le champ {valeur} doit mesurer moins de {max} caractères.",
+  "erreur_taille": "Votre {valeur} doit être entre {min} et {max} caractères.",
   "forms_actions_annuler": "Annuler",
-  "forms_actions_envoyer": "Envoyer"
+  "forms_actions_envoyer": "Envoyer",
+  "forms_messages_creation_succes": "{genre, select, feminin {{objet} créée} other {{objet} créé}} avec succès",
+  "resultat_correct": "Correct",
+  "resultat_incorrect": "Incorrect",
+  "tentative_nom": "{count, plural, one {Tentative} other {Tentatives}}"
 }

@@ -1,14 +1,15 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import EnigmeService from '../services/EnigmeService';
 import EnigmeCreerDTO from '../models/transfert/EnigmeCreer';
+import Enigme from '../models/Enigme';
 
 export default class EnigmesRouter {
 
   private readonly router: Router;
-  private enigmeService : EnigmeService;
+  private enigmeService: EnigmeService;
   constructor() {
-    this.router = Router();
-    this.enigmeService = EnigmeService.getInstance();
+		this.router = Router();
+		this.enigmeService = EnigmeService.getInstance();
     this.initRoutes();
   }
 
@@ -18,18 +19,22 @@ export default class EnigmesRouter {
     this.router.post('/creer', this.creerEnigme.bind(this));
   }
 
-  private getEnigmes(_req: Request, res: Response, _next: NextFunction): void {
-    res.json(this.enigmeService.getEnigmes());
+  private async getEnigmes(_req: Request, res: Response, _next: NextFunction): Promise<void> {
+		const enigmes: Enigme[] = await this.enigmeService.getEnigmes();
+    res.status(200).json(enigmes);
   }
 
-  private getEnigme(_req: Request, res: Response, _next: NextFunction): void {
-    console.log(_req.params.id);
-    res.json(this.enigmeService.getEnigme(Number.parseInt(_req.params.id?.toString() ?? "0")));
+  private async getEnigme(_req: Request, res: Response, _next: NextFunction): Promise<void> {
+    // TODO validations des paramètres et gestion d'erreurs.
+		console.log("Router enigmes");
+    const enigme: Enigme = await this.enigmeService.getEnigme(Number.parseInt(_req.params.id?.toString() ?? "0"));
+    res.status(200).json(enigme);
   }
 
-  private creerEnigme(_req: Request, res: Response, _next: NextFunction): void {
-    const enigme : EnigmeCreerDTO = _req.body;
-    res.json(this.enigmeService.addEnigme(enigme));
+  private async creerEnigme(_req: Request, res: Response, _next: NextFunction): Promise<void> {
+    const enigmeDTO: EnigmeCreerDTO = _req.body;
+		const enigme = await this.enigmeService.addEnigme(enigmeDTO);
+    res.status(200).json(enigme);
   }
 
   public getRouter(): Router {

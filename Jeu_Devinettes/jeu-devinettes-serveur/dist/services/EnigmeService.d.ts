@@ -6,12 +6,14 @@ declare class EnigmeService {
     private enigmes;
     private static readonly TAILLE_MIN_CHAMP;
     private static readonly TAILLE_MAX_CHAMP;
+    private connexion;
     constructor();
     static getInstance(): EnigmeService;
-    getEnigmes(): Enigme[];
-    getEnigmesFiltres(): Enigme[];
-    getEnigme(enigmeId: number): Enigme | undefined;
-    addEnigme(dto: EnigmeCreerDTO): Enigme[] | void;
+    testConnexion(): Promise<void>;
+    getEnigmes(): Promise<Enigme[]>;
+    getEnigmesFiltres(): Promise<Enigme[]>;
+    getEnigme(enigmeId: number): Promise<Enigme>;
+    addEnigme(dto: EnigmeCreerDTO): Promise<Enigme[] | void>;
 }
 export default EnigmeService;
 //# sourceMappingURL=EnigmeService.d.ts.map

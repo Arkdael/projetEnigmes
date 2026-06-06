@@ -17,10 +17,17 @@
   "enigme_liste_resoudre": "Solve",
   "enigme_jeu_essayer": "Try a word",
   "enigme_jeu_abandonner": "Abandon",
-  "enigme_jeu_titre": "Tentatives précédentates",
+  "enigme_jeu_titre": "Tentatives précédentes",
   "enigme_jeu_colId": "Id",
   "enigme_jeu_colMot": "Wort",
   "enigme_jeu_colResultat": "Résultat",
+  "erreur_tropCourt": "The field {valeur} must be less than {min} characters.",
+  "erreur_tropLong": "The field {valeur} must be at least {max} characters.",
+  "erreur_taille": "The field {valeur} must be between {min} and {max} characters.",
   "forms_actions_annuler": "Annuler",
-  "forms_actions_envoyer": "Envoyer"
+  "forms_actions_envoyer": "Envoyer",
+  "forms_messages_creation_succes": "{objet} created successfully",
+  "resultat_correct": "Richtig",
+  "resultat_incorrect": "Falsch",
+  "tentative_nom": "{count, plural, one {Attempt} other {Attemps}}"
 }

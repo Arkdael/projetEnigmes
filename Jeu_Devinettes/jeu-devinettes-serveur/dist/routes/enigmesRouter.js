@@ -18,16 +18,22 @@ class EnigmesRouter {
         this.router.get('/:id', this.getEnigme.bind(this));
         this.router.post('/creer', this.creerEnigme.bind(this));
     }
-    getEnigmes(_req, res, _next) {
-        res.json(this.enigmeService.getEnigmes());
+    async getEnigmes(_req, res, _next) {
+        res.json(await this.enigmeService.getEnigmes());
     }
-    getEnigme(_req, res, _next) {
-        console.log(_req.params.id);
-        res.json(this.enigmeService.getEnigme(Number.parseInt(_req.params.id?.toString() ?? "0")));
+    async getEnigme(_req, res, _next) {
+        // TODO validations des paramètres et gestion d'erreurs.
+        try {
+            const enigme = await this.enigmeService.getEnigme(Number.parseInt(_req.params.id?.toString() ?? "0"));
+            res.json(enigme);
+        }
+        catch (erreur) {
+            res.status(404);
+        }
     }
-    creerEnigme(_req, res, _next) {
+    async creerEnigme(_req, res, _next) {
         const enigme = _req.body;
-        res.json(this.enigmeService.addEnigme(enigme));
+        res.json(await this.enigmeService.addEnigme(enigme));
     }
     getRouter() {
         return this.router;

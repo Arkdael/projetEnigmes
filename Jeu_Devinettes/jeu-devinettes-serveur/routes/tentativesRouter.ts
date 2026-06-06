@@ -1,11 +1,12 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import TentativeService from '../services/TentativeService';
 import TentativeCreerDTO from '../models/transfert/TentativeCreer';
+import Tentative from '../models/Tentative';
 
 export default class TentativeRouter {
 
   private readonly router: Router;
-  private tentativesService : TentativeService;
+  private tentativesService: TentativeService;
   constructor() {
     this.router = Router();
     this.tentativesService = TentativeService.getInstance();
@@ -17,13 +18,16 @@ export default class TentativeRouter {
     this.router.post('/effectuer', this.effectuerTentative.bind(this));
   }
 
-  private getTentatives(_req: Request, res: Response, _next: NextFunction): void {
-    res.json(this.tentativesService.getTentatives(Number(_req.params.joueurId), Number(_req.params.enigmeId)));
+  private async getTentatives(_req: Request, res: Response, _next: NextFunction): Promise<void> {
+    const tentatives = await this.tentativesService.getTentatives(Number(_req.params.joueurId), Number(_req.params.enigmeId));
+    console.log("Routeur tentatives");
+    res.status(200).json(tentatives);
   }
 
-  private effectuerTentative(_req: Request, res: Response, _next: NextFunction): void {
-    const tentative : TentativeCreerDTO = _req.body;
-    res.json(this.tentativesService.effectuerTentative(tentative));
+  private async effectuerTentative(_req: Request, res: Response, _next: NextFunction): Promise<void> {
+    const tentativeDTO: TentativeCreerDTO = _req.body;
+    const tentative: Tentative = await this.tentativesService.effectuerTentative(tentativeDTO);
+    res.status(200).json(tentative);
   }
 
   public getRouter(): Router {

@@ -4,7 +4,7 @@ import Header from "@/src/app/shared/header";
 import Footer from "@/src/app/shared/footer";
 import TentativeService from "@/src/app/services/TentativeService";
 import EnigmeService from "@/src/app/services/EnigmeService";
-import Tentative from "@/src/app/models/Tentative";
+import Tentative, { Resultat, traduireResultat } from "@/src/app/models/Tentative";
 import TentativeCreerDTO from "@/src/app/models/transfert/TentativeCreer";
 import Enigme from "@/src/app/models/Enigme";
 import { m } from "@/src/paraglide/messages";
@@ -62,7 +62,7 @@ function ListeTentatives({tentatives}: {tentatives: Tentative[]}) {
         <tr key={tentative.id}>
           <td>{tentative.id}</td>
           <td>{tentative.texte}</td>
-          <td>{tentative.resultat}</td>
+          <td>{m[traduireResultat(tentative.resultat)]()}</td>
         </tr>
         )
       }
@@ -80,8 +80,10 @@ export default function Page() {
   const [tentatives, setTentatives] = useState<Tentative[]>(listeInitiale);
 
   useEffect(() => {
-    chargerDonnees();
-  }, []);
+    if(router.isReady) {
+      chargerDonnees();
+    }
+  }, [router.isReady, router.query.id]);
 
   async function chargerDonnees() {
     try {
@@ -99,7 +101,7 @@ export default function Page() {
 
   async function gererTentative(texte: string) {
     if(texte.length < TentativeService.TAILLE_MIN_CHAMP || texte.length > TentativeService.TAILLE_MAX_CHAMP) {
-      alert(`Votre tentative doit être entre ${TentativeService.TAILLE_MIN_CHAMP} et ${TentativeService.TAILLE_MAX_CHAMP} caractères.`);
+      alert(m.erreur_taille({valeur: m.tentative_nom, min: TentativeService.TAILLE_MIN_CHAMP, max: TentativeService.TAILLE_MAX_CHAMP}));
       return;
     }
 
@@ -107,9 +109,10 @@ export default function Page() {
     if(!nouvelleTentative) {
       return;
     }
-    setTentatives([nouvelleTentative, ...tentatives]);
-    if(nouvelleTentative.resultat == "Correct") {
-      alert(`Félicitation! Vous avez résolu l'énigme en ${tentatives.length} tentatives.`);
+    console.log(nouvelleTentative);
+    setTentatives([...tentatives, nouvelleTentative]);
+    if(nouvelleTentative.resultat == Resultat.CORRECT) {
+      alert(m.enigme_jeu_messages_felicitation({compte: tentatives.length}));
     }
   }
   

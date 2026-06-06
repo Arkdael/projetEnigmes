@@ -17,19 +17,19 @@ class TentativeService {
         }
         return TentativeService.instance;
     }
-    getAllTentatives() {
+    async getAllTentatives() {
         return this.tentatives;
     }
-    getTentatives(joueurId, enigmeId) {
+    async getTentatives(joueurId, enigmeId) {
         const tentatives = this.tentatives.filter(tentative => tentative.joueurId == joueurId && tentative.enigmeId == enigmeId);
         return tentatives;
     }
-    effectuerTentative(dto) {
+    async effectuerTentative(dto) {
         if (dto.tentativeTexte.length < TentativeService.TAILLE_MIN_CHAMP || dto.tentativeTexte.length > TentativeService.TAILLE_MAX_CHAMP) {
             // TODO gestion d'erreur.
             return;
         }
-        const enigme = this.enigmeService.getEnigme(dto.enigmeId);
+        const enigme = await this.enigmeService.getEnigme(dto.enigmeId);
         const resultat = dto.tentativeTexte.toLowerCase() == enigme?.solution.toLowerCase() ? "Correct" : "Incorrect";
         const nouvelleTentative = {
             id: this.tentatives.length + 1,

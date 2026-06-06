@@ -17,12 +17,12 @@ class TentativeRouter {
         this.router.get('/:enigmeId/:joueurId', this.getTentatives.bind(this));
         this.router.post('/effectuer', this.effectuerTentative.bind(this));
     }
-    getTentatives(_req, res, _next) {
-        res.json(this.tentativesService.getTentatives(Number(_req.params.joueurId), Number(_req.params.enigmeId)));
+    async getTentatives(_req, res, _next) {
+        res.json(await this.tentativesService.getTentatives(Number(_req.params.joueurId), Number(_req.params.enigmeId)));
     }
-    effectuerTentative(_req, res, _next) {
+    async effectuerTentative(_req, res, _next) {
         const tentative = _req.body;
-        res.json(this.tentativesService.effectuerTentative(tentative));
+        res.json(await this.tentativesService.effectuerTentative(tentative));
     }
     getRouter() {
         return this.router;

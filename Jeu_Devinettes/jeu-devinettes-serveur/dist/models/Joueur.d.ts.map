@@ -1,1 +1,1 @@
-{"version":3,"file":"Joueur.d.ts","sourceRoot":"","sources":["../../models/Joueur.ts"],"names":[],"mappings":"AAAA,MAAM,CAAC,OAAO,WAAW,MAAM;IAC3B,EAAE,EAAG,MAAM,CAAC;IACZ,GAAG,EAAG,MAAM,CAAC;IACb,QAAQ,EAAG,MAAM,CAAC;CACrB"}
+{"version":3,"file":"Joueur.d.ts","sourceRoot":"","sources":["../../models/Joueur.ts"],"names":[],"mappings":"AAAA,MAAM,CAAC,OAAO,WAAW,MAAM;IAC7B,EAAE,EAAE,MAAM,CAAC;IACX,GAAG,EAAE,MAAM,CAAC;IACZ,QAAQ,EAAE,MAAM,CAAC;CAClB"}

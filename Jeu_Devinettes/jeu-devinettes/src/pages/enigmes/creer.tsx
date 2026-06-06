@@ -15,22 +15,22 @@ function FormulaireCreationEnigme() {
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    if (texteEnigme.length < EnigmeService.TAILLE_MIN_CHAMP || texteEnigme.length > EnigmeService.TAILLE_MAX_CHAMP) {
-      alert(`Le texte de l'énigme doit être entre ${EnigmeService.TAILLE_MIN_CHAMP} et ${EnigmeService.TAILLE_MAX_CHAMP} caractères.`);
+    if(texteEnigme.length < EnigmeService.TAILLE_MIN_CHAMP || texteEnigme.length > EnigmeService.TAILLE_MAX_CHAMP) {
+      alert(m.erreur_taille({valeur: m.enigme_creer_champQuestion, min: EnigmeService.TAILLE_MIN_CHAMP, max: EnigmeService.TAILLE_MAX_CHAMP}));
       return;
     }
-    if (texteReponse.length < EnigmeService.TAILLE_MIN_CHAMP || texteReponse.length > EnigmeService.TAILLE_MAX_CHAMP) {
-      alert(`La réponse de l'énigme doit être entre ${EnigmeService.TAILLE_MIN_CHAMP} et ${EnigmeService.TAILLE_MAX_CHAMP} caractères.`);
+    if(texteReponse.length < EnigmeService.TAILLE_MIN_CHAMP || texteReponse.length > EnigmeService.TAILLE_MAX_CHAMP) {
+      alert(m.erreur_taille({valeur: m.enigme_creer_champReponse, min: EnigmeService.TAILLE_MIN_CHAMP, max: EnigmeService.TAILLE_MAX_CHAMP}));
       return;
     }
-    if (texteExplication.length < EnigmeService.TAILLE_MIN_CHAMP || texteExplication.length > EnigmeService.TAILLE_MAX_CHAMP) {
-      alert(`L'explication de l'énigme doit être entre ${EnigmeService.TAILLE_MIN_CHAMP} et ${EnigmeService.TAILLE_MAX_CHAMP} caractères.`);
+    if(texteExplication.length < EnigmeService.TAILLE_MIN_CHAMP || texteExplication.length > EnigmeService.TAILLE_MAX_CHAMP) {
+      alert(m.erreur_taille({valeur: m.enigme_creer_champExplication, min: EnigmeService.TAILLE_MIN_CHAMP, max: EnigmeService.TAILLE_MAX_CHAMP}));
       return;
     }
 
     const reponse = enigmeService.creer({texteEnigme, texteReponse, texteExplication} as EnigmeCreerDTO);
     if(reponse != null) {
-      alert("Énigme créé avec succès!");
+      alert(m.forms_messages_creation_succes({objet: m.enigme_nom, genre: "feminin"}));
     }
     setTexteEnigme("");
     setTexteReponse("");
