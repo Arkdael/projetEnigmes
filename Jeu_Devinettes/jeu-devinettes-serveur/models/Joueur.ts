@@ -1,5 +1,5 @@
 export default interface Joueur {
-  id: number;
-  nom: string;
-  courriel: string;
+	id: number;
+	nom: string;
+	courriel: string;
 }

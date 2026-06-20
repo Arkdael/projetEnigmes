@@ -11,9 +11,9 @@ function ListeEnigmes({enigmes}: {enigmes: Enigme[]}) {
 		<table>
 			<thead>
 				<tr>
-				<td>{m.enigme_liste_colId()}</td>
-				<td>{m.enigme_liste_colTexte()}</td>
-				<td> </td> 
+					<td>{m.enigme_liste_colId()}</td>
+					<td>{m.enigme_liste_colTexte()}</td>
+					<td> </td>
 				</tr>
 			</thead>
 			<tbody>
@@ -30,7 +30,6 @@ function ListeEnigmes({enigmes}: {enigmes: Enigme[]}) {
 		</table>
   );
 }
-
 
 function FormulaireRecherche({handleSearch}: {handleSearch: (value: string) => void}) {
   const [texteRecherche, setTexteRecherche] = useState("");
@@ -51,7 +50,7 @@ function FormulaireRecherche({handleSearch}: {handleSearch: (value: string) => v
 				onChange={(e) => setTexteRecherche(e.target.value)}/>
 			<button type="submit">
 				<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor">
-				<path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path>
+					<path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path>
 				</svg>
 			</button>
 	  </div>
@@ -59,9 +58,7 @@ function FormulaireRecherche({handleSearch}: {handleSearch: (value: string) => v
   );
 }
 
-
 export default function Page() {
-  //const locale = useUrlLocale(baseLocale);
   const [enigmes, setEnigmes] = useState<Enigme[]>([]);
   const [listeInitiale, setListeInitiale] = useState<Enigme[]>([]);
 

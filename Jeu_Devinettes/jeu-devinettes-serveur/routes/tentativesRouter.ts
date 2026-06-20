@@ -1,36 +1,57 @@
-import { Router, Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import TentativeService from '../services/TentativeService';
 import TentativeCreerDTO from '../models/transfert/TentativeCreer';
 import Tentative from '../models/Tentative';
+import { StatusCodes } from 'http-status-codes';
+import RouterGenerique from './router';
+import ValidationError from '../models/errorModels/ValidationError';
+import NotFoundError from '../models/errorModels/NotFoundError';
 
-export default class TentativeRouter {
+export default class TentativeRouter extends RouterGenerique {
+	private readonly tentativesService: TentativeService;
 
-  private readonly router: Router;
-  private tentativesService: TentativeService;
-  constructor() {
-    this.router = Router();
-    this.tentativesService = TentativeService.getInstance();
-    this.initRoutes();
-  }
+	constructor() {
+		super();
+		this.tentativesService = TentativeService.getInstance();
+	}
 
-  private initRoutes(): void {
-    this.router.get('/:enigmeId/:joueurId', this.getTentatives.bind(this));
-    this.router.post('/effectuer', this.effectuerTentative.bind(this));
-  }
+	protected override initRoutes(): void {
+		this.router.get('/:enigmeId/:joueurId', this.getTentatives.bind(this));
+		this.router.post('/effectuer', this.effectuerTentative.bind(this));
+	}
 
-  private async getTentatives(_req: Request, res: Response, _next: NextFunction): Promise<void> {
-    const tentatives = await this.tentativesService.getTentatives(Number(_req.params.joueurId), Number(_req.params.enigmeId));
-    console.log("Routeur tentatives");
-    res.status(200).json(tentatives);
-  }
+	private async getTentatives(_req: Request, res: Response, _next: NextFunction): Promise<Response> {
+		try {
+			const tentatives = await this.tentativesService.getTentatives(Number(_req.params.joueurId), Number(_req.params.enigmeId));
+			return res.status(StatusCodes.OK).json(tentatives);
+		}
+		catch(erreur: any) {
+			switch(true) {
+				case erreur instanceof NotFoundError: {
+					return res.status(StatusCodes.NOT_FOUND).json(erreur.message);
+				}
+				default: {
+					return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(erreur.message);
+				}
+			}
+		}
+	}
 
-  private async effectuerTentative(_req: Request, res: Response, _next: NextFunction): Promise<void> {
-    const tentativeDTO: TentativeCreerDTO = _req.body;
-    const tentative: Tentative = await this.tentativesService.effectuerTentative(tentativeDTO);
-    res.status(200).json(tentative);
-  }
-
-  public getRouter(): Router {
-    return this.router;
-  }
+	private async effectuerTentative(_req: Request, res: Response, _next: NextFunction): Promise<Response> {
+		try {
+			const tentativeDTO: TentativeCreerDTO = _req.body;
+			const tentative: Tentative = await this.tentativesService.effectuerTentative(tentativeDTO);
+			return res.status(StatusCodes.CREATED).json(tentative);
+		} 
+		catch(erreur: any) {
+			switch(true) {
+				case erreur instanceof ValidationError: {
+					return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json(erreur.message);
+				}
+				default: {
+					return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(erreur.message);
+				}
+			}
+		}
+	}
 }

@@ -1,25 +1,44 @@
+import { StatusCodes } from "http-status-codes";
 import Tentative from "../models/Tentative";
 import TentativeCreerDTO from "../models/transfert/TentativeCreer";
 import HttpService from "./HttpService";
+import IntrouvableErreur from "../models/errorModels/IntrouvableErreur";
+import { m } from "@/src/paraglide/messages";
 
 export default class TentativeService extends HttpService<Tentative> {
-  protected override apiUrl: string =  `${this.apiUrl}/tentatives`;
+	protected override readonly apiUrl: string = `${this.apiUrl}/tentatives`;
 
-  public async getTentatives(joueurId: number, enigmeId: number) {
-    const reponse = await fetch(`${this.apiUrl}/${enigmeId}/${joueurId}`);
-    return await reponse.json() as Tentative[];
-  }
+	public async getTentatives(joueurId: number, enigmeId: number) {
+		const reponse = await fetch(`${this.apiUrl}/${enigmeId}/${joueurId}`);
+		
+		switch(reponse.status) {
+			case StatusCodes.OK:
+				return await reponse.json() as Tentative[];
+			case StatusCodes.NOT_FOUND:
+		throw new IntrouvableErreur(m.erreur_introuvable_specifique({genre: m.enigme_genre(), objet: m.enigme_nom({count: 1}), clef: "id", valeur: enigmeId}), m.enigme_nom({count: 1}), enigmeId);
+			default:
+				throw new Error(m.erreur_inattendue_generique());
+		}
+	}
 
-  public async effectuerTentative(joueurId: number, enigmeId: number, tentativeTexte: string) {
-    const dto = {joueurId, enigmeId, tentativeTexte} as TentativeCreerDTO;
-    const reponse = await fetch(`${this.apiUrl}/effectuer`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(dto),
-    });
-    
-    return await reponse.json() as Tentative;
-  }
+	public async effectuerTentative(tentativeDTO: TentativeCreerDTO) {
+		const reponse = await fetch(`${this.apiUrl}/effectuer`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(tentativeDTO),
+		});
+
+		switch(reponse.status) {
+			case StatusCodes.OK:
+				return await reponse.json() as Tentative;
+			case StatusCodes.CREATED:
+				return await reponse.json() as Tentative;
+			case StatusCodes.NOT_FOUND:
+				throw new IntrouvableErreur(m.erreur_introuvable_specifique({genre: m.enigme_genre(), objet: m.enigme_nom({count: 1}), clef: "id", valeur: tentativeDTO.enigmeId}), m.enigme_nom({count: 1}), tentativeDTO.enigmeId);
+			default:
+				throw new Error(m.erreur_inattendue_generique());
+		}
+	}
 }
