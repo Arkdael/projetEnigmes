@@ -12,8 +12,7 @@ import TentativeCreerDTO from "@/src/app/models/transfert/TentativeCreer";
 import TailleErreur from "@/src/app/models/errorModels/TailleErreur";
 
 const JOUEUR_ID = 1; // TODO remplacer par un système d'authentification fonctionnel.
-
-function FormulaireTentative({gererTentative}: {gererTentative: (value: string) => void}) {
+function FormulaireTentative({gererTentative, gererAbandon,}: {gererTentative: (value: string) => void; gererAbandon: () => void;}) {
 	const [mot, setMot] = useState("");
 
 	function handleSubmit(e: React.FormEvent) {
@@ -26,8 +25,8 @@ function FormulaireTentative({gererTentative}: {gererTentative: (value: string) 
 		setMot(value);
 	}
 	
-	function abandonner() {
-		alert(":("); // TODO Trouver comment avoir la reponse de l'énigme.
+	function abandonner_onclick() {
+		gererAbandon();
 	}
 
 	return (
@@ -43,7 +42,7 @@ function FormulaireTentative({gererTentative}: {gererTentative: (value: string) 
 				/>
 			</div>
 			<button className="formInput" type="submit">{m.forms_actions_envoyer()}</button>
-			<button className="formInput boutonAbandonner" type="button" onClick={abandonner}>{m.enigme_jeu_abandonner()}</button>
+			<button className="formInput boutonAbandonner" type="button" onClick={abandonner_onclick}>{m.enigme_jeu_abandonner()}</button>
 		</form>
 	);
 }
@@ -121,7 +120,7 @@ export default function Page() {
 
 			setTentatives([...tentatives, nouvelleTentative]);
 			if(nouvelleTentative.resultat == Resultat.CORRECT) {
-				alert(m.enigme_jeu_messages_felicitation({compte: tentatives.length}));
+				alert(m.enigme_jeu_messages_felicitation({compte: tentatives.length, explication: enigme.explication}));
 			}
 		}
 		catch(erreur) {
@@ -137,16 +136,21 @@ export default function Page() {
 			}
 		}
 	}
-	
+
+	function abandonner() {
+		alert(m.enigme_jeu_messages_abandon({reponse: enigme.solution, explication: enigme.explication}));
+	}
+
 	return (
 		<div>
 			<Header/>
 			<main>
 				<p>«{enigme.question}»</p>
-				<FormulaireTentative gererTentative={gererTentative}/>
+				<FormulaireTentative gererTentative={gererTentative} gererAbandon={abandonner}/>
 				<ListeTentatives tentatives={tentatives}/>
 			</main>
 			<Footer />
+			
 		</div>
 	);
 }

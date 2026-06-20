@@ -8,13 +8,13 @@ interface IObjet {
 }
 
 export default abstract class HttpService<TObjet extends IObjet> {
-	protected readonly apiUrl: string = "http://localhost:4200";
+	protected readonly apiUrl: string = "http://localhost:4200"; // TODO Utiliser fichier .env.
 	public static TAILLE_MIN_CHAMP = 1;
 	public static TAILLE_MAX_CHAMP = 32;
 
 	constructor() {}
 
-	public async recuperer(id: number): Promise<TObjet>  {
+	public async recuperer(id: number): Promise<TObjet> {
 		const reponse: Response = await fetch(`${this.apiUrl}/${id}`);
 		switch(reponse.status) {
 			case StatusCodes.OK:
