@@ -18,7 +18,7 @@ export default class Enigme {
 		this.explication = enigmeCreerDTO.texteExplication;
 	}
 
-	private validerDTO(enigmeCreerDTO: EnigmeCreerDTO) {
+	private validerDTO(enigmeCreerDTO: EnigmeCreerDTO): void {
 		// TODO Traduction des erreurs
 		if(enigmeCreerDTO.texteEnigme.length < TAILLE_MIN_CHAMP || enigmeCreerDTO.texteEnigme.length > TAILLE_MAX_CHAMP) {
 			throw new ValidationError(`Le champ doit être entre ${TAILLE_MIN_CHAMP} et ${TAILLE_MAX_CHAMP} caractères`, "texteEnigme");

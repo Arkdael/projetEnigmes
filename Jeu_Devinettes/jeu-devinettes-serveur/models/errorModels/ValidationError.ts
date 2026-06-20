@@ -1,3 +1,4 @@
+// Erreur à lancer quand des données vont à l'encontre de règles métiers.
 export default class ValidationError extends Error {
 	public field: string|undefined;
 

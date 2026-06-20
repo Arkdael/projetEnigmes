@@ -150,7 +150,6 @@ export default function Page() {
 				<ListeTentatives tentatives={tentatives}/>
 			</main>
 			<Footer />
-			
 		</div>
 	);
 }
